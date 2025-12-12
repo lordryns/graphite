@@ -26,11 +26,6 @@ static void on_activate (GtkApplication *app)
 
     gtk_window_set_default_size(GTK_WINDOW (window), 15, geometry.height - 100);
 
-    // gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, 20);
-    // gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_RIGHT, 20);
-    // gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_TOP, 80);
-    // gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_BOTTOM, 0); // 0 is default
-
     gtk_layer_set_anchor(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, TRUE);
     gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, 10);
     GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5); 
