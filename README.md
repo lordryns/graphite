@@ -11,3 +11,7 @@ Shortcut bar for wayland
 - gtk4-layer-shell 
 - log.c (included)
 - inih (included)
+
+# Installation 
+
+Simply clone this repository and run the `make` command (ensure you have clang and gtk4 installed).

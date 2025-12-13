@@ -8,7 +8,6 @@
 
 struct slot {
     char *name; 
-    char *icon;
     char *on_click_command;
 };
 
@@ -33,33 +32,23 @@ static int handler(void* user, const char* section, const char* name,
     }
     else if (MATCH("slot-1", "name")) {
         pconfig->slot1.name = strdup(value);
-    } else if (MATCH("slot-1", "icon")) {
-        pconfig->slot1.icon = strdup(value);
-    } else if (MATCH("slot-1", "on_click_command")) {
+    }  else if (MATCH("slot-1", "on_click_command")) {
         pconfig->slot1.on_click_command = strdup(value);
     } else if (MATCH("slot-2", "name")) {
         pconfig->slot2.name = strdup(value);
     } else if (MATCH("slot-2", "on_click_command")) {
         pconfig->slot2.on_click_command = strdup(value);
-    } else if (MATCH("slot-2", "icon")) {
-        pconfig->slot2.icon = strdup(value);
-    } else if (MATCH("slot-3", "name")) {
+    }  else if (MATCH("slot-3", "name")) {
         pconfig->slot3.name = strdup(value);
-    } else if (MATCH("slot-3", "icon")) {
-        pconfig->slot3.icon = strdup(value);
-    } else if (MATCH("slot-3", "on_click_command")) {
+    }  else if (MATCH("slot-3", "on_click_command")) {
         pconfig->slot3.on_click_command = strdup(value);
     } else if (MATCH("slot-4", "name")) {
         pconfig->slot4.name = strdup(value);
-    } else if (MATCH("slot-4", "icon")) {
-        pconfig->slot4.icon = strdup(value);
-    } else if (MATCH("slot-4", "on_click_command")) {
+    }  else if (MATCH("slot-4", "on_click_command")) {
         pconfig->slot4.on_click_command = strdup(value);
     } else if (MATCH("slot-5", "name")) {
         pconfig->slot5.name = strdup(value);
-    } else if (MATCH("slot-5", "icon")) {
-        pconfig->slot5.icon = strdup(value);
-    } else if (MATCH("slot-5", "on_click_command")) {
+    }  else if (MATCH("slot-5", "on_click_command")) {
         pconfig->slot5.on_click_command = strdup(value);
     }
     else {
@@ -67,6 +56,7 @@ static int handler(void* user, const char* section, const char* name,
     }
     return 1;
 }
+
 
 bool use_config = true;
 static void on_activate (GtkApplication *app) 
@@ -108,33 +98,42 @@ static void on_activate (GtkApplication *app)
     gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, 10);
     GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5); 
 
-
     // apparently these null guards dont work as well as i thought they did 
     // .name returns garbage not null
+
+    GtkWidget *expand_button = gtk_button_new_from_icon_name("open-menu-symbolic");
+    gtk_widget_set_tooltip_markup(expand_button, "Expand/Collapse");
+    gtk_widget_set_name(expand_button, "expand");
+    gtk_box_append(GTK_BOX (main_box), expand_button);
 
     if (config.slot1.name != NULL) 
     {
         GtkWidget *s1button = gtk_button_new_from_icon_name(config.slot1.name); 
+        gtk_widget_set_name(s1button, "slot");
         gtk_box_append(GTK_BOX (main_box), s1button);
     }
     if (config.slot2.name != NULL) 
     {
         GtkWidget *s2button = gtk_button_new_from_icon_name(config.slot2.name); 
+        gtk_widget_set_name(s2button, "slot");
         gtk_box_append(GTK_BOX (main_box), s2button);
     }
     if (config.slot3.name != NULL)
     {
         GtkWidget *s3button = gtk_button_new_from_icon_name(config.slot3.name); 
+        gtk_widget_set_name(s3button, "slot");
         gtk_box_append(GTK_BOX (main_box), s3button);
     }
     if (config.slot4.name != NULL)
     {
         GtkWidget *s4button = gtk_button_new_from_icon_name(config.slot4.name); 
+        gtk_widget_set_name(s4button, "slot");
         gtk_box_append(GTK_BOX (main_box), s4button);
     }
     if (config.slot5.name != NULL)
     {
         GtkWidget *s5button = gtk_button_new_from_icon_name(config.slot5.name); 
+        gtk_widget_set_name(s5button, "slot");
         gtk_box_append(GTK_BOX (main_box), s5button);
     }
 
