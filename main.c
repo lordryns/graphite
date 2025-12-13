@@ -74,6 +74,7 @@ void on_window_create_signal (GtkButton *button, gpointer user_data)
     {
         gtk_button_set_icon_name(button, "window-close-symbolic");
         popup_window = gtk_window_new();
+        gtk_widget_set_name(popup_window, "popup-window");
         gtk_window_set_transient_for(GTK_WINDOW (popup_window), main_window);
         gtk_window_set_default_size(GTK_WINDOW (popup_window), 400, 600);
         gtk_layer_init_for_window(GTK_WINDOW (popup_window));
@@ -113,6 +114,7 @@ static void on_activate (GtkApplication *app)
     //gtk_window_set_decorated(GTK_WINDOW (window), FALSE);
     //gtk_window_set_resizable(GTK_WINDOW (window), FALSE);
     
+    gtk_widget_set_name(window, "window");
     gtk_layer_init_for_window(GTK_WINDOW (window));
     gtk_layer_set_layer(GTK_WINDOW (window), GTK_LAYER_SHELL_LAYER_TOP);
     gtk_layer_auto_exclusive_zone_enable(GTK_WINDOW (window));
