@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include <gtk4-layer-shell/gtk4-layer-shell.h>
 #include <stdio.h>
+#include "glib-object.h"
 #include "log.h"
 #include "ini.h"
 #include <stdbool.h>
@@ -57,6 +58,34 @@ static int handler(void* user, const char* section, const char* name,
     return 1;
 }
 
+static GtkWidget *popup_window = NULL;
+
+void on_window_create_signal (GtkButton *button, gpointer user_data)
+{
+    GtkWindow *main_window = (GtkWindow *) user_data;
+    
+    if (popup_window != NULL) 
+    {
+        gtk_window_destroy(GTK_WINDOW (popup_window));
+        popup_window = NULL;
+        gtk_button_set_icon_name(button, "open-menu-symbolic");
+    } 
+    else 
+    {
+        gtk_button_set_icon_name(button, "window-close-symbolic");
+        popup_window = gtk_window_new();
+        gtk_window_set_transient_for(GTK_WINDOW (popup_window), main_window);
+        gtk_window_set_default_size(GTK_WINDOW (popup_window), 400, 600);
+        gtk_layer_init_for_window(GTK_WINDOW (popup_window));
+        gtk_layer_set_layer(GTK_WINDOW (popup_window), GTK_LAYER_SHELL_LAYER_TOP);
+        gtk_layer_set_anchor(GTK_WINDOW (popup_window), GTK_LAYER_SHELL_EDGE_LEFT, TRUE);
+    gtk_layer_set_margin(GTK_WINDOW (popup_window), GTK_LAYER_SHELL_EDGE_LEFT, 5);
+        
+        g_signal_connect(popup_window, "destroy", G_CALLBACK(gtk_window_destroy), &popup_window);
+        
+        gtk_window_present(GTK_WINDOW (popup_window));
+    }
+}
 
 bool use_config = true;
 static void on_activate (GtkApplication *app) 
@@ -95,7 +124,7 @@ static void on_activate (GtkApplication *app)
     gtk_window_set_default_size(GTK_WINDOW (window), 15, geometry.height - 100);
 
     gtk_layer_set_anchor(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, TRUE);
-    gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, 10);
+    gtk_layer_set_margin(GTK_WINDOW (window), GTK_LAYER_SHELL_EDGE_LEFT, 5);
     GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5); 
 
     // apparently these null guards dont work as well as i thought they did 
@@ -104,6 +133,7 @@ static void on_activate (GtkApplication *app)
     GtkWidget *expand_button = gtk_button_new_from_icon_name("open-menu-symbolic");
     gtk_widget_set_tooltip_markup(expand_button, "Expand/Collapse");
     gtk_widget_set_name(expand_button, "expand");
+    g_signal_connect(expand_button, "clicked", G_CALLBACK(on_window_create_signal), GTK_WINDOW (window));
     gtk_box_append(GTK_BOX (main_box), expand_button);
 
     if (config.slot1.name != NULL) 
